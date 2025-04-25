@@ -20,32 +20,52 @@ class Servicio:
         self.__reservas: List[Reserva] = []
 
     @property
+    def unidad(self):
+        return self.__unidad
+
+    @unidad.setter
+    def unidad(self,unidad_nueva: Unidad):
+        self.__unidad = unidad_nueva
+
+    @property
     def fecha_partida(self):
         return self.__fecha_partida
-
-    @property
-    def ventas(self):
-        return self.__ventas
-
-    @property
-    def reservas(self):
-        return self.__reservas
 
     @property
     def fecha_llegada(self):
         return self.__fecha_llegada
 
     @property
-    def unidad(self):
-        return self.__unidad
-
-    @property
     def calidad(self):
         return self.__calidad
+
+    @calidad.setter
+    def calidad(self, calidad_nueva: CalidadServicio):
+        self.__calidad = calidad_nueva
 
     @property
     def precio(self):
         return self.__precio
+
+    @precio.setter
+    def precio(self, precio_nuevo: float):
+        self.__precio = precio_nuevo
+
+    @property
+    def ventas(self):
+        return self.__ventas
+
+    @ventas.setter
+    def ventas(self, venta: Venta):
+        self.__ventas.append(venta)
+
+    @property
+    def reservas(self):
+        return self.__reservas
+
+    @reservas.setter
+    def reservas(self, reserva: Reserva):
+        self.__reservas.append(reserva)
 
     def asientos_ocupados(self) -> List[int]:
         asientos_ocupados: List[int] = []
@@ -68,6 +88,12 @@ class Servicio:
     def disponible(self) -> bool:
         return self.__fecha_partida > datetime.now()
 
-    def __str__(self) -> str :
-        return f"Servicio de la unidad {self.__unidad.patente()}(PATENTE) desde {self.__fecha_partida} " \
-               f"hasta {self.__fecha_llegada} con calidad {self.__calidad.nombre()} y precio {self.__precio} \n {self.__itinerario}"
+    def __str__(self) -> str:
+        return (
+            f"Servicio de la unidad {self.__unidad.patente()} (PATENTE)\n"
+            f"Desde: {self.__fecha_partida}\n"
+            f"Hasta: {self.__fecha_llegada}\n"
+            f"Calidad: {self.__calidad.nombre()}\n"
+            f"Precio: {self.__precio}\n"
+            f"Itinerario:\n{self.__itinerario}"
+        )
