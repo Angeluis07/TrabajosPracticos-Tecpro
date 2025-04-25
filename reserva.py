@@ -23,12 +23,15 @@ class Reserva:
     @property
     def fecha_hora(self):
         return self.__fecha_hora
+
     @property
     def pasajero(self):
         return self.__pasajero
+
     @property
     def servicio(self):
         return self.__servicio
+
     @property
     def asiento(self):
         return self.__asiento

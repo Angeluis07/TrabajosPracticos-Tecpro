@@ -65,6 +65,9 @@ class Servicio:
                 asientos_disponibles.append(asiento.numero())
         return asientos_disponibles.sort()
 
+    def disponible(self) -> bool:
+        return self.__fecha_partida > datetime.now()
+
     def __str__(self) -> str :
         return f"Servicio de la unidad {self.__unidad.patente()}(PATENTE) desde {self.__fecha_partida} " \
                f"hasta {self.__fecha_llegada} con calidad {self.__calidad.nombre()} y precio {self.__precio} \n {self.__itinerario}"
