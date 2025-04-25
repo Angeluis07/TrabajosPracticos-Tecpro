@@ -13,6 +13,8 @@ class Reserva:
         self.__pasajero = pasajero
         self.__servicio = servicio
         self.__asiento = asiento
+        print(f"Reserva realizada a las {self.fecha_hora}: Pasajero {self.__pasajero.nombre()}, asiento {self.__asiento.numero()}, "
+              f"servicio del {self.__servicio.fecha_partida()}")
 
     def caducada(self) -> bool:
         return datetime.now() >= (self.__servicio.fecha_partida()-timedelta(minutes=30))
