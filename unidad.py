@@ -2,9 +2,11 @@ from typing import List
 from asiento import Asiento
 
 class Unidad:
-    def __init__(self, patente, asientos : List['Asiento'] = None):
+    def __init__(self, patente, cant_asientos: int):
         self.__patente = patente
-        self.__asientos = asientos if asientos else []
+        self.__asientos: List[Asiento] = []
+        for i in range(cant_asientos):
+            self.__asientos.append(Asiento(i + 1))
 
     @property
     def patente(self):
@@ -13,15 +15,3 @@ class Unidad:
     @patente.setter
     def patente(self, value):
         self.__patente = value
-
-    @property
-    def asientos(self):
-        return self.__asientos
-
-    @asientos.setter
-    def asientos(self, value):
-        self.__asientos.append(value)
-
-
-    def reservar_asiento(self, asiento: 'Asiento'):
-        pass
