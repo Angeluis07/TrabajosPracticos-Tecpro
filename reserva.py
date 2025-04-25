@@ -11,7 +11,7 @@ class Reserva:
         self.__asiento = asiento
 
     def reserva_caducada(self) -> bool:
-        return self.__fecha_hora >= (self.__servicio.fecha_partida()-timedelta(minutes=30))
+        return datetime.now() >= (self.__servicio.fecha_partida()-timedelta(minutes=30))
 
     @property
     def fecha_hora(self):
