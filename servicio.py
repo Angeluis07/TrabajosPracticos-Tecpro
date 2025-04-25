@@ -8,7 +8,8 @@ from itinerario import Itinerario
 
 
 class Servicio:
-    def __init__(self, unidad: 'Unidad', fecha_partida: datetime, fecha_llegada: datetime, calidad: CalidadServicio, precio: float, itinerario: 'Itinerario'):
+    def __init__(self, unidad: 'Unidad', fecha_partida: datetime, fecha_llegada: datetime, calidad: CalidadServicio,
+                 precio: float, itinerario: 'Itinerario'):
         self.__unidad = unidad
         self.__fecha_partida = fecha_partida
         self.__fecha_llegada = fecha_llegada
@@ -56,13 +57,14 @@ class Servicio:
         return asientos_ocupados.sort()
 
     def asientos_disponibles(self) -> List[int]:
-        L1: List[int] = self.__unidad.asientos()
-        L2: List[int] = self.asientos_ocupados()
+        l1: List[int] = self.__unidad.asientos()
+        l2: List[int] = self.asientos_ocupados()
         asientos_disponibles: List[int] = []
-        for asiento in L1:
-            if asiento.nro_asiento() not in L2:
+        for asiento in l1:
+            if asiento.nro_asiento() not in l2:
                 asientos_disponibles.append(asiento.numero())
         return asientos_disponibles.sort()
 
     def __str__(self) -> str :
-        return f"Servicio de la unidad {self.__unidad.patente()}(PATENTE) desde {self.__fecha_partida} hasta {self.__fecha_llegada} con calidad {self.__calidad.nombre()} y precio {self.__precio} \n {self.__itinerario}"
+        return f"Servicio de la unidad {self.__unidad.patente()}(PATENTE) desde {self.__fecha_partida} " \
+               f"hasta {self.__fecha_llegada} con calidad {self.__calidad.nombre()} y precio {self.__precio} \n {self.__itinerario}"
