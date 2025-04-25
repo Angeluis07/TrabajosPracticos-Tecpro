@@ -22,21 +22,6 @@ class Unidad:
     def asientos(self, value):
         self.__asientos.append(value)
 
-    #pensar implementacion, pq se pide mostrar asientos disponibles y tambien el listado completo,
-    #yo creo que de esta forma es mejor, que tener dos metodos distintos.
-    #Revisar si cumple con tell dont ask
-    def mostrar_asientos_disponibles(self): #Muestro los asientos en forma de lista
-        print("Listado de Asientos")
-        print("  -Disponibles")
-        for asiento in self.__asientos:
-            print(f"    {asiento.mostrar_si_disponible()}")
-
-    def mostrar_asientos_ocupados(self):
-        print("Listado de Asientos")
-        print("  -Ocupados")
-        for asiento in self.__asientos:
-            print(f"    {asiento.mostrar_si_ocupado()}")
-
 
     def reservar_asiento(self, asiento: 'Asiento'):
         pass

@@ -30,13 +30,3 @@ class Itinerario:
     def __str__(self) -> str:
         return f"Codigo: {self.__codigo}, Ciudad Origen: {self.__ciudad_origen.nombre}, Ciudad Destino: {self.__ciudad_destino.nombre}, Paradas Intermedias: {[ciudad.nombre for ciudad in self.__paradas_intermedias]}"
 
-
-if __name__ == '__main__':
-    ciudad1 = Ciudad("001", "Madrid", "Madrid")
-    ciudad2 = Ciudad("002", "Barcelona", "Cataluña")
-    ciudad3 = Ciudad("003", "Valencia", "Comunidad Valenciana")
-    ciudad4 = Ciudad("004", "Sevilla", "Andalucía")
-    ciudad5 = Ciudad("005", "Bilbao", "País Vasco")
-
-    itinerario = Itinerario("IT001", ciudad1, ciudad2, [ciudad3, ciudad4, ciudad5])
-    print(itinerario)

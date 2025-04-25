@@ -10,7 +10,7 @@ class Reserva:
         self.__servicio = servicio
         self.__asiento = asiento
 
-    def reserva_caducada(self) -> bool:
+    def caducada(self) -> bool:
         return datetime.now() >= (self.__servicio.fecha_partida()-timedelta(minutes=30))
 
     @property
