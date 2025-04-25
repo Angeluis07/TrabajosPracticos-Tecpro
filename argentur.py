@@ -19,7 +19,17 @@ class Argentur:
         print("Bienvenido a Argentur")
         print(" -Servicios Disponibles:")
         for id_servicio, servicio in enumerate(self.servicios, start=1):  #Enumerate devuelve un par índice, servicio
-            print(f"   * Servicio [{id_servicio}] - {servicio}" if servicio.disponible() else "")
+            if servicio.disponible():
+                print(f"   * Servicio [{id_servicio}]")
+                print(f"     - Itinerario: {servicio})
+                print(f"        -Ciudad de Origen: {servicio.itirerario}
+                print(f"           -Fecha de partida: {servicio.fecha_partida()}")
+                print(f         -Paradas intermedias: {servicio.itinerario.paradas_intermedias()}") #viola principio de Demeter 
+                print(f"        -Ciudad de Destino: {servicio.itirerario}
+                print(f"           -Fecha de llegada: {servicio.fecha_llegada()}")
+                print(f"     - Calidad del servicio: {servicio.calidad()}")
+                print(f"     - Fechas disponibles: Partida: {servicio.fecha_partida()} - Llegada: {servicio.fecha_llegada()}")
+                print(f"     - Precio: ${servicio.precio()}")
 
     def informe_ingresos(self, fecha_desde: datetime, fecha_hasta: datetime):
         print("Informe de ingresos:")
