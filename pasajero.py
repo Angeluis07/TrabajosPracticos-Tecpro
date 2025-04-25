@@ -1,5 +1,4 @@
 from venta import Venta
-from datetime import datetime
 from reserva import Reserva
 
 class Pasajero:
@@ -12,9 +11,14 @@ class Pasajero:
 
     def realizar_reserva(self, reserva: 'Reserva'):
         self.__reservas.append(reserva)
+        #en el main se deberia armar la reserva y luego agregarla a la lista de reservas del pasajero
+        #segun lo que se explica en el archivo de respuestas al TPI en la seccion de patron controlador
+
 
     def realizar_venta(self, venta: 'Venta'):
         self.__ventas.append(venta)
+        #en el main se deberia armar la venta y luego agregarla a la lista de ventas del pasajero
+        #segun lo que se explica en el archivo de respuestas al TPI en la seccion de patron controlador
 
     @property
     def nombre(self):
@@ -43,4 +47,3 @@ class Pasajero:
     @property
     def reservas(self):
         return self.__reservas
-
