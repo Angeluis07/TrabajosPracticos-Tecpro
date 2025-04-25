@@ -52,19 +52,17 @@ class Servicio:
         self.__precio = precio_nuevo
 
     @property
-    def ventas(self):
+    def ventas(self) -> List[Venta]:
         return self.__ventas
 
-    @ventas.setter
-    def ventas(self, venta: Venta):
+    def agregar_venta(self, venta: Venta):
         self.__ventas.append(venta)
 
     @property
-    def reservas(self):
+    def reservas(self) -> List[Reserva]:
         return self.__reservas
 
-    @reservas.setter
-    def reservas(self, reserva: Reserva):
+    def agregar_reserva(self, reserva: Reserva):
         self.__reservas.append(reserva)
 
     def asientos_ocupados(self) -> List[int]:
@@ -87,6 +85,12 @@ class Servicio:
 
     def disponible(self) -> bool:
         return self.__fecha_partida > datetime.now()
+
+    def total_ventas(self) -> float:
+        return len(self.__ventas)*self.__precio
+
+    def cantidad_ventas(self) -> int:
+        return len(self.__ventas)
 
     def __str__(self) -> str:
         return (
