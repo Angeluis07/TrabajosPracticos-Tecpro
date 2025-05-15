@@ -59,19 +59,19 @@
   (define horas_disponibles (horarios localidad))
   (letrec ([resultado (lambda (lst1)
                          (cond
-                           [(hora_valida hora_consulta car(lst1)) lst1]
                            [(null? lst1) '()]
+                           [(hora_valida hora_consulta (car lst1)) lst1]
                            [else (resultado (cdr lst1))]))])
-        (resultado (horas_disponibles))))
+        (resultado horas_disponibles)))
 
 
 (define (ArgentinaTur lista_consulta)
-  (define resultado (precio_viaje car(lista_consulta) car(cdr(lista_consulta))))
+  (define resultado (precio_viaje (car lista_consulta) (car(cdr lista_consulta))))
   (if (equal? resultado  "ERROR")
     "ERROR"
-    (if (equal? (verificar_horario (car(cdr(cdr lista_consulta)))) '() )
-      (list (list car(lista_consulta) car(cdr(lista_consulta))) 0 "NO HAY HORARIOS DE SALIDA DISPONIBLES")
-      (list (list car(lista_consulta) car(cdr(lista_consulta))) resultado (verificar_horario (car(cdr(cdr lista_consulta))) car(lista_consulta))))))
+    (if (equal? (verificar_horario (car(cdr(cdr lista_consulta))) (car lista_consulta)) '() )
+      (list (list (car lista_consulta) (car(cdr lista_consulta))) 0 "NO HAY HORARIOS DE SALIDA DISPONIBLES")
+      (list (list (car lista_consulta) (car(cdr lista_consulta))) resultado (verificar_horario (car(cdr(cdr lista_consulta))) (car lista_consulta))))))
 
 
 
