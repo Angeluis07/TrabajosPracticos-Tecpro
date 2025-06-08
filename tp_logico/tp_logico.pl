@@ -39,15 +39,28 @@ persona('Gabriela').
 persona('Roberto').
 persona('Jose').
 
-camino('Jorge', ['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda']).
-camino('Adriana', ['Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre']).
-camino('Gabriela', ['Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
-camino('Roberto', ['Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande']).
-camino('Jose', ['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
+caminoDe('Jorge', ['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda']).
+caminoDe('Adriana', ['Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre']).
+caminoDe('Gabriela', ['Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
+caminoDe('Roberto', ['Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande']).
+caminoDe('Jose', ['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
 
+recorridoCompleto(['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
 % Reglas
+
+
+% La regla camino recibe una lista de personas y devuelve el camino que realice el colectivo
+camino([X|Cola], ListaCamino) :-
+
+
+repartir_costos([X|ListaPersona], Resultado) :-
+
+
 /*
 repartir_costos/2
+
+
+
 El mismo recibe una lista de personas que van a repartir su costo, y una lista en que se coloca
 el resultado. El resultado debe ser una lista de listas, donde cada sublista contien:
  a. El nombre de la persona,
