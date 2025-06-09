@@ -1,21 +1,4 @@
 % Base de conocimiento
-localidad('Cordoba Capital').
-localidad('Carlos Paz').
-localidad('Bialet Masse').
-localidad('Valle Hermoso').
-localidad('La Falda').
-localidad('Huerta Grande').
-localidad('La Cumbre').
-localidad('Capilla Del Monte').
-
-tramo('Cordoba Capital', 'Carlos Paz').
-tramo('Carlos Paz', 'Bialet Masse').
-tramo('Bialet Masse', 'Valle Hermoso').
-tramo('Valle Hermoso', 'La Falda').
-tramo('La Falda', 'Huerta Grande').
-tramo('Huerta Grande', 'La Cumbre').
-tramo('La Cumbre', 'Capilla Del Monte').
-
 costoTramo(['Cordoba Capital', 'Carlos Paz'], 1500).
 costoTramo(['Carlos Paz', 'Bialet Masse'], 1500).
 costoTramo(['Bialet Masse', 'Valle Hermoso'], 1000).
@@ -30,46 +13,49 @@ caminoDe(gabriela, ['Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', '
 caminoDe(roberto, ['Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande']).
 caminoDe(jose, ['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
 
-recorridoCompleto(['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
-
-
+%Regla para obtener los tramos de un camino
+% Un tramo es un par (origen, destino)
 obtener_tramos([_],[]) :- !.
 obtener_tramos([X,Y|Cola], [[X,Y]|Resultado]):-
     obtener_tramos([Y|Cola], Resultado).
 
+% Regla para obtener los tramos de cada persona
 obtener_tramos_personas([], []):- !.
 obtener_tramos_personas([Nombre|Resto], [[Nombre, Tramos]|Resultado]) :-
     caminoDe(Nombre,List),
     obtener_tramos(List, Tramos),
     obtener_tramos_personas(Resto, Resultado).
 
+% Regla para contar los tramos de cada persona
+% Arma pares (tramo, cantidad) de tramos recorridos por cada persona
 contar_tramo(Tramo, [], [[Tramo, 1]]) :- !.
-contar_tramo(Tramo, [[T, N]|Resto], [[T, N]|Final]) :-
+contar_tramo(Tramo, [[T, Cantidad]|Resto], [[T, Cantidad]|Final]) :-
     T \= Tramo,
     contar_tramo(Tramo, Resto, Final).
-
-contar_tramo(Tramo, [[T, N]|Resto], [[T, M]|Resto]) :-
+contar_tramo(Tramo, [[T, Cantidad]|Resto], [[T, Cantidad_2]|Resto]) :-
     T == Tramo,
-    M is N + 1.
+    Cantidad_2 is Cantidad + 1.
 
+%Suma los tramos que recorre una persona
+sumar_tramos_persona([], Acumulador, Acumulador) :- !.
+sumar_tramos_persona([Tramo|Resto], Acumulador, Resultado) :-
+    contar_tramo(Tramo, Acumulador, Nuevo_acumulador),
+    sumar_tramos_persona(Resto, Nuevo_acumulador, Resultado).
 
-%revisar estas dos de abajo
-sumar_tramos_persona([], Acc, Acc) :- !.
-sumar_tramos_persona([X|Xs], Acc, Resultado) :-
-    contar_tramo(X, Acc, NuevoAcc),
-    sumar_tramos_persona(Xs, NuevoAcc, Resultado).
-
+% Cuenta los tramos totales recorridos por todas las personas
 contar_tramos_totales([], Acc, Acc) :- !.
 contar_tramos_totales([[_,Tramos]|Resto], Acc, ResultadoFinal) :-
     sumar_tramos_persona(Tramos, Acc, NuevoAcc),
     contar_tramos_totales(Resto, NuevoAcc, ResultadoFinal).
 
-
+% Verifica si un tramo pertenece a la lista de tramos de una persona
 pertenece_tramo([],_):- fail,!.
 pertenece_tramo([Tramo|_], Tramo).
 pertenece_tramo([_|Tramos_persona],Tramo) :-
     pertenece_tramo(Tramos_persona,Tramo).
 
+% Suma el costo parcial de los tramos recorridos por una persona
+% Recibe una lista de tramos con su cantidad y una persona
 sumar_costo_parcial([],_,0):-!.
 sumar_costo_parcial([[X,N]|ListaTramos],Persona,Resultado):-
     caminoDe(Persona,Camino_persona),
@@ -79,15 +65,18 @@ sumar_costo_parcial([[X,N]|ListaTramos],Persona,Resultado):-
     sumar_costo_parcial(ListaTramos,Persona,Resultado2),
     Resultado is Resultado2 + Total/N,
     !.
-
 sumar_costo_parcial([[_,_]|ListaTramos],Persona,Resultado):-
     sumar_costo_parcial(ListaTramos,Persona,Resultado).
 
+% Estructura la lista final con el nombre de la persona, su camino y el costo total
+% Recibe una lista de personas y una lista de tramos con su cantidad
 estructurar([],_,[]):-!.
 estructurar([X|Personas],Tramos_cantidad,[[X,Camino_X,Total_X]|Resultado]):-
     estructurar(Personas,Tramos_cantidad,Resultado),
     caminoDe(X,Camino_X),
     sumar_costo_parcial(Tramos_cantidad,X,Total_X).
+
+% Regla principal que recibe una lista de personas y devuelve una lista final con el nombre, camino y costo total
 repartir_costos(Personas,Lista_final):-
     obtener_tramos_personas(Personas,Tramos_personas),
     contar_tramos_totales(Tramos_personas, [], Resultado),
