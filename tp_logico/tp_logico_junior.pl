@@ -24,11 +24,11 @@ costoTramo(['La Falda', 'Huerta Grande'], 1000).
 costoTramo(['Huerta Grande', 'La Cumbre'], 1200).
 costoTramo(['La Cumbre', 'Capilla Del Monte'], 1600).
 
-caminoDe('Jorge', ['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda']).
-caminoDe('Adriana', ['Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre']).
-caminoDe('Gabriela', ['Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
-caminoDe('Roberto', ['Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande']).
-caminoDe('Jose', ['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
+caminoDe(jorge, ['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda']).
+caminoDe(adriana, ['Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre']).
+caminoDe(gabriela, ['Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
+caminoDe(roberto, ['Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande']).
+caminoDe(jose, ['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
 
 recorridoCompleto(['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
 
@@ -93,4 +93,16 @@ repartir_costos(Personas,Lista_final):-
     contar_tramos_totales(Tramos_personas, [], Resultado),
     estructurar(Personas,Resultado,Lista_final),
     !.
+/*
+26 ?- repartir_costos([jorge], Resultado).
+Resultado = [[jorge,[Cordoba Capital,Carlos Paz,Bialet Masse,Valle Hermoso,La Falda],5200]].
 
+27 ?-  repartir_costos([jorge, adriana], Resultado).
+Resultado = [[jorge,[Cordoba Capital,Carlos Paz,Bialet Masse,Valle Hermoso,La Falda],4600],[adriana,[Valle Hermoso,La Falda,Huerta Grande,La Cumbre],2800]].
+
+28 ?- repartir_costos([jorge, adriana, gabriela], Resultado).
+Resultado = [[jorge,[Cordoba Capital,Carlos Paz,Bialet Masse,Valle Hermoso,La Falda],3150],[adriana,[Valle Hermoso,La Falda,Huerta Grande,La Cumbre],1500],[gabriela,[Carlos Paz,Bialet Masse,Valle Hermoso,La Falda,Huerta Grande,La Cumbre,Capilla Del Monte],4350]].
+
+29 ?- repartir_costos([jorge, adriana, gabriela, roberto, jose], Resultado).
+Resultado = [[jorge,[Cordoba Capital,Carlos Paz,Bialet Masse,Valle Hermoso,La Falda],1740],[adriana,[Valle Hermoso,La Falda,Huerta Grande,La Cumbre],890],[gabriela,[Carlos Paz,Bialet Masse,Valle Hermoso,La Falda,Huerta Grande,La Cumbre,Capilla Del Monte],2440],[roberto,[Bialet Masse,Valle Hermoso,La Falda,Huerta Grande],740],[jose,[Cordoba Capital,Carlos Paz,Bialet Masse,Valle Hermoso,La Falda,Huerta Grande,La Cumbre,Capilla Del Monte],3190]].
+*/
