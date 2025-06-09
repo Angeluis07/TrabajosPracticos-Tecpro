@@ -8,15 +8,6 @@ localidad('f').
 localidad('g').
 localidad('h').
 
-costoLocalidad('a', 1500).
-costoLocalidad('b', 1500).
-costoLocalidad('c', 1000).
-costoLocalidad('d', 1200).
-costoLocalidad('e', 1000).
-costoLocalidad('f', 1200).
-costoLocalidad('g', 1600).
-costoLocalidad('h', 0).
-
 tramo('a', 'b').
 tramo('b', 'c').
 tramo('c', 'd').
@@ -25,19 +16,13 @@ tramo('e', 'f').
 tramo('f', 'g').
 tramo('g', 'h').
 
-costoTramo('a', 'b', 1500).
-costoTramo('b', 'c', 1500).
-costoTramo('c', 'd', 1000).
-costoTramo('d', 'e', 1200).
-costoTramo('e', 'f', 1000).
-costoTramo('f', 'g', 1200).
-costoTramo('g', 'h', 1600).
-
-persona('Jorge').
-persona('Adriana').
-persona('Gabriela').
-persona('Roberto').
-persona('Jose').
+costoTramo(['a', 'b'], 1500).
+costoTramo(['b', 'c'], 1500).
+costoTramo(['c', 'd'], 1000).
+costoTramo(['d', 'e'], 1200).
+costoTramo(['e', 'f'], 1000).
+costoTramo(['f', 'g'], 1200).
+costoTramo(['g', 'h'], 1600).
 
 caminoDe('Jorge', ['a', 'b', 'c', 'd', 'e']).
 caminoDe('Adriana', ['d', 'e', 'f', 'g']).
@@ -52,7 +37,7 @@ obtener_tramos([_],[]) :- !.
 obtener_tramos([X,Y|Cola], [[X,Y]|Resultado]):-
     obtener_tramos([Y|Cola], Resultado).
 
-obtener_tramos_personas([], []).
+obtener_tramos_personas([], []):- !.
 obtener_tramos_personas([Nombre|Resto], [[Nombre, Tramos]|Resultado]) :-
     caminoDe(Nombre,List),
     obtener_tramos(List, Tramos),
@@ -62,28 +47,49 @@ contar_tramo(Tramo, [], [[Tramo, 1]]) :- !.
 contar_tramo(Tramo, [[T, N]|Resto], [[T, N]|Final]) :-
     T \= Tramo,
     contar_tramo(Tramo, Resto, Final).
+
 contar_tramo(Tramo, [[T, N]|Resto], [[T, M]|Resto]) :-
     T == Tramo,
     M is N + 1.
 
-estructurar_aux([],[]):-!.
-estructurar_aux([X|List],Resultado_final) :-
-    estructurar_aux(List,Resultado),
-    contar_tramo(X,Resultado,Resultado_final).
-
-
 
 %revisar estas dos de abajo
-estructurar_aux([], Acc, Acc).
-estructurar_aux([X|Xs], Acc, Resultado) :-
+sumar_tramos_persona([], Acc, Acc) :- !.
+sumar_tramos_persona([X|Xs], Acc, Resultado) :-
     contar_tramo(X, Acc, NuevoAcc),
-    estructurar_aux(Xs, NuevoAcc, Resultado).
+    sumar_tramos_persona(Xs, NuevoAcc, Resultado).
 
-estructurar([], Acc, Acc).
-estructurar([[_,Tramos]|Resto], Acc, ResultadoFinal) :-
-    estructurar_aux(Tramos, Acc, NuevoAcc),
-    estructurar(Resto, NuevoAcc, ResultadoFinal).
+contar_tramos_totales([], Acc, Acc) :- !.
+contar_tramos_totales([[_,Tramos]|Resto], Acc, ResultadoFinal) :-
+    sumar_tramos_persona(Tramos, Acc, NuevoAcc),
+    contar_tramos_totales(Resto, NuevoAcc, ResultadoFinal).
 
-ds(Personas,Resultado):-
+
+pertenece_tramo([],_):- fail,!.
+pertenece_tramo([Tramo|Tramos_persona], Tramo).
+pertenece_tramo([X|Tramos_persona],Tramo) :-
+    pertenece_tramo(Tramos_persona,Tramo).
+
+sumar_costo_parcial([],_,0):-!.
+sumar_costo_parcial([[X,N]|ListaTramos],Persona,Resultado):-
+    caminoDe(Persona,Camino_persona),
+    obtener_tramos(Camino_persona,Tramos_persona),
+    pertenece_tramo(Tramos_persona,X),
+    costoTramo(X,Total),
+    sumar_costo_parcial(ListaTramos,Persona,Resultado2),
+    Resultado is Resultado2 + Total/N,
+    !.
+
+sumar_costo_parcial([[X,N]|ListaTramos],Persona,Resultado):-
+    sumar_costo_parcial(ListaTramos,Persona,Resultado).
+
+estructurar([],_,[]).
+estructurar([X|Personas],Tramos_cantidad,[[X,Camino_X,Total_X]|Resultado]):-
+    estructurar(Personas,Tramos_cantidad,Resultado),
+    caminoDe(X,Camino_X),
+    sumar_costo_parcial(Tramos_cantidad,X,Total_X).
+ds(Personas,Resultado,Lista_final):-
     obtener_tramos_personas(Personas,Tramos_personas),
-    estructurar(Tramos_personas, [], Resultado).
+    contar_tramos_totales(Tramos_personas, [], Resultado),
+    estructurar(Personas,Resultado,Lista_final).
+
