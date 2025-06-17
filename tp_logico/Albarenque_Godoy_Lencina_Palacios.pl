@@ -19,7 +19,7 @@ caminoDe(gabriela, ['Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', '
 caminoDe(roberto, ['Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande']).
 caminoDe(jose, ['Cordoba Capital', 'Carlos Paz', 'Bialet Masse', 'Valle Hermoso', 'La Falda', 'Huerta Grande', 'La Cumbre', 'Capilla Del Monte']).
 
-%Regla para obtener los tramos de un camino
+% Regla para obtener los tramos de un camino
 % Un tramo es un par (origen, destino)
 obtener_tramos([_],[]) :- !.
 obtener_tramos([X,Y|Cola], [[X,Y]|Resultado]):-
@@ -42,25 +42,25 @@ contar_tramo(Tramo, [[T, Cantidad]|Resto], [[T, Cantidad_2]|Resto]) :-
     T == Tramo,
     Cantidad_2 is Cantidad + 1.
 
-%Suma los tramos que recorre una persona
+% Regla que suma los tramos que recorre una persona
 sumar_tramos_persona([], Acumulador, Acumulador) :- !.
 sumar_tramos_persona([Tramo|Resto], Acumulador, Resultado) :-
     contar_tramo(Tramo, Acumulador, Nuevo_acumulador),
     sumar_tramos_persona(Resto, Nuevo_acumulador, Resultado).
 
-% Cuenta los tramos totales recorridos por todas las personas
+% Regla que cuenta los tramos totales recorridos por todas las personas
 contar_tramos_totales([], Acc, Acc) :- !.
 contar_tramos_totales([[_,Tramos]|Resto], Acc, ResultadoFinal) :-
     sumar_tramos_persona(Tramos, Acc, NuevoAcc),
     contar_tramos_totales(Resto, NuevoAcc, ResultadoFinal).
 
-% Verifica si un tramo pertenece a la lista de tramos de una persona
+% Regla que verifica si un tramo pertenece a la lista de tramos de una persona
 pertenece_tramo([],_):- fail,!.
 pertenece_tramo([Tramo|_], Tramo).
 pertenece_tramo([_|Tramos_persona],Tramo) :-
     pertenece_tramo(Tramos_persona,Tramo).
 
-% Suma el costo parcial de los tramos recorridos por una persona
+% Regla que suma el costo parcial de los tramos recorridos por una persona
 % Recibe una lista de tramos con su cantidad y una persona
 sumar_costo_parcial([],_,0):-!.
 sumar_costo_parcial([[X,N]|ListaTramos],Persona,Resultado):-
@@ -74,7 +74,7 @@ sumar_costo_parcial([[X,N]|ListaTramos],Persona,Resultado):-
 sumar_costo_parcial([[_,_]|ListaTramos],Persona,Resultado):-
     sumar_costo_parcial(ListaTramos,Persona,Resultado).
 
-% Estructura la lista final con el nombre de la persona, su camino y el costo total
+% Regla que estructura la lista final con el nombre de la persona, su camino y el costo total
 % Recibe una lista de personas y una lista de tramos con su cantidad
 estructurar([],_,[]):-!.
 estructurar([X|Personas],Tramos_cantidad,[[X,Camino_X,Total_X]|Resultado]):-
